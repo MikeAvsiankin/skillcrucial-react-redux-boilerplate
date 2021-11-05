@@ -1,5 +1,6 @@
 import express from 'express'
 import path from 'path'
+import axios from 'axios'
 import cors from 'cors'
 import sockjs from 'sockjs'
 import { renderToStaticNodeStream } from 'react-dom/server'
@@ -31,6 +32,10 @@ const middleware = [
   express.json({ limit: '50mb', extended: true }),
   cookieParser()
 ]
+server.get('/api/v1/users/', async (req, res) => {  
+  const { data: users } = await axios('https://jsonplaceholder.typicode.com/users')  
+  res.json(users)  
+})   
 
 middleware.forEach((it) => server.use(it))
 
